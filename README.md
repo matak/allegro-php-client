@@ -10,16 +10,16 @@ Allegro WebAPI PHP Client
 
 Features
 ------------
-  - full IDE autocompletion thanks to [wsdl2phpgenerator](https://github.com/wsdl2phpgenerator/wsdl2phpgenerator)
-  - simple, fluent, robust yet flexible, OOP interface
-  - support for custom logger
+  - full **IDE autocompletion** thanks to [wsdl2phpgenerator](https://github.com/wsdl2phpgenerator/wsdl2phpgenerator)
+  - simple, fluent, robust yet flexible, **OOP interface**
+  - support for **custom logger**
     - library then writes some info to it to ease debugging
-  - support for custom cache
+  - support for **custom cache**
     - caching is then enabled on a per call bases like this `$client->call()->cacheFor(10 * 60)->doSomeMethod()`
-  - support for parameter injection
+  - support for **parameter injection**
     - eg. session ID, country code, user ID, ...
     - such info will be prepended to all requests that support it, so that you don't have to write them by hand all the time
-  - support for custom SOAP client
+  - support for **custom SOAP client**
     - this feature requires some tiny hacks (rerunning wsdl2phpgenerator with your custom config)
 
 
