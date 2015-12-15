@@ -1,0 +1,42 @@
+## Run on container environment
+sudo: false
+
+matrix:
+  fast_finish: true
+
+notifications:
+  email: false
+
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - secure: "v8KKn7l0OstQUziAJ5Yhhqyl+DKG47seGZbbuNA+uVHvHEmBy6zx5ZoeT8M+P6aaaj7HgVDDBtvp9FUYByHwR216ISZBp+tZAm8ehQq9VIHd4+JBJ231wQHdwRwFAOFFCkMWTxVUHvM1afDonyw9HKl6EIW8U1mRvZsaTl1DVDK2NSUjHA9x49XW4UMbOcVDsdtZIx3HkZv/w5ugZ1HfvSvGsMzsWWRqMdtLORuRtN2sYNIukFKUapT57Slb2pMTUvscsHMSsRG/7GkiIh/OusKiFQnfmbFdUsKbJXdL9RZL8oEt6jJR9EJljTiEmkJpu4f3nJqBMINe7/fuKgQs+q7VRWDwyW9ZK/23ZxCKa8FWr4bkuizPM/3LpCLndLlOiGNUU8pYc/A52nYCo8B/J+KB7XFNMPvWQRoxgbSmyFbAuG6WoyADBmFztNdOeSy31uhtli4WCUadds6UBubTcftxTkol32sfcTVppdUtbp/z/9QQtKdqOl/ZWdwEyHwTdbNpMUhS/4F8JrRQ06holRHCHBPiFmAQouttqGm+3VXeGHhJEXeJSatX+nuCiMC7lxwsHn5V96ZFypVDZVil+9BUU37RDK9qZ0nKRQppJVmo7/7/vnt1NPTT31eYthFIxW1N+AaVr6ipkN1lRlIAc2p1TAC9xycEfdyKSH5P6s8="
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  - composer update --no-interaction --prefer-source
+
+script: 'true'
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "BiCkfWkkIBEY083Q5TBcOYDd9QPcUBs+RRkDhHUaUjeL9oZAnv+agNKW4eEmzb2zO7xAcHmLlPM0hmgsQal4OrA5PFpkyRfTqW7XxAp468nyO/s2/WQ8gkZ6ouu35ntQLWi+PN09/1UZJaSIp5xlHKumEJI6g90zKWizVQ9i9EKpCUlAMNM/P/Gbmy67WTlJGTeDf2QCOgQY76Ug99cuIsJVKk/IQdRF653lgSFsO6xSD8jtPiVdId8LdJtMmW0G9gZ2OuN3rf9bb88s8nGTHZd3NWy/vAQn2bNjqM2PP2CeNb728+CiYWx8bQnpKQqam6ZKj0e8sSBF+wgi2lRtYjikRrYRYn0ZqVn7LccJOowVdsVlbtEQ54Ho7T+QH8sqj7d65G7SwXRRj6fHHCDEI4w/o2A21ZVtG7XmNZDXZ4li1XjPaxNI1cLW/oTBaJW2gbUwFLD5r9Jnjj9WTw/VmwQdSsVUz4FafgqdzksP90MFbZhKdzip7+CSwuTzDoXGnD9nXf5RIUKrFvy6Ws3RbOrNac0x+ubsjXCZ821vAMGOjrqik2Di3VDxgOEjYNhPhY7R8bCqJOmcGMokLsUMA1N1yGymuaN4IaIdjlcHCGvQwY7gYukil4Xec3KVZWUw896ZBg4O9jEBTAaKfXiS6afPSI+iKtYpEYhdtV3FoDQ="
+  on:
+    tags: true
+    php: '5.5'
+
+after_deploy:
+  - chmod +x ./gh-pages_deploy.sh
+  - ./gh-pages_deploy.sh

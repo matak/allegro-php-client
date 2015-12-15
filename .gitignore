@@ -1,0 +1,14 @@
+# junk
+*.log
+
+# private
+**/.*.php
+_test.php
+.*/
+
+# composer
+composer.lock
+/vendor
+
+# temporary masks
+lib/Client/Api/
