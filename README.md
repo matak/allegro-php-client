@@ -91,7 +91,7 @@ $client->authenticate();
 
 Library documentation
 ----------------
-  - [ApiGen generated docs](http://rindeal.github.io/allegro-client/class-Rindeal.Allegro.Client.html)
+  - [ApiGen generated docs](http://rindeal.github.io/allegro-php-client/docs/api/latest/class-Rindeal.Allegro.Client.html)
   - [official WebAPI docs](http://allegro.pl/webapi/documentation.php?lang=en)
 
 
