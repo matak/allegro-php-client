@@ -25,7 +25,7 @@ use Rindeal\Allegro\Client\Session;
 class Client
 {
     const NAME = 'AllegroClient';
-    const VERSION = '0.1.3';
+    const VERSION = '0.2.0';
     const URL = 'https://github.com/rindeal/allegro-php-client';
 
 
