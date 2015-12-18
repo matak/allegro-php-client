@@ -35,13 +35,13 @@
         "psr/log": "~1.0",
         "psr/cache": "dev-master",
 
-        "respect/validation": "~0.9",
+        "respect/validation": "~1.0",
         "brandonwamboldt/utilphp": "~1.1"
     },
     "require-dev": {
         "wsdl2phpgenerator/wsdl2phpgenerator": "~3.2",
 
-        "phpunit/phpunit": "~4.8",
+        "phpunit/phpunit": "~5.1",
         "monolog/monolog": "~1.17",
 
         "squizlabs/php_codesniffer": "~2.3",
