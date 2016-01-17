@@ -27,6 +27,7 @@ env:
 before_script:
   - phpenv config-rm xdebug.ini
   - composer update --no-interaction --prefer-source
+  - composer --version
 
 script: 'true'
 
