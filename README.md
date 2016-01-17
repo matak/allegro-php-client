@@ -2,19 +2,25 @@ Allegro WebAPI PHP Client
 ==========================
 > The bridge between your app and [Allegro Group](https://en.wikipedia.org/wiki/Allegro_%28auction_website%29) servers
 
-[![Latest Version](https://img.shields.io/packagist/v/rindeal/allegro-client.svg?style=flat-square)](https://packagist.org/packages/rindeal/allegro-client)
+[![Latest Version](https://img.shields.io/github/release/rindeal/allegro-client.svg?style=flat-square)](https://github.com/rindeal/allegro-php-client/releases/latest)
 [![License](https://img.shields.io/badge/license-LGPL--3.0-blue.svg?style=flat-square)](https://tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rindeal/allegro-php-client/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/rindeal/allegro-php-client/?branch=master)
+[![Codacy Code Quality](https://img.shields.io/codacy/7b16f96aa2494763b210bd07823210a2.svg?style=flat-square)](https://www.codacy.com/app/dev-rindeal/allegro-php-client)
 
 
 Features
 ------------
-  - full IDE autocompletion thanks to [wsdl2phpgenerator](https://github.com/wsdl2phpgenerator/wsdl2phpgenerator)
-  - simple, fluent, robust yet flexible, OOP interface
-  - support for custom logger (library then writes some info to it)
-  - support for custom cache (caching is then enabled per call like this `$client->call()->cacheFor(10 * 60)->doSomeMethod()`)
-  - support for parameters injection (eg. session ID, country code, user ID, ...) that will be prepended to all requests that support it, so that you don't have to write them by hand all the time
-  - with some tiny hacks (rerunning wsdl2phpgenerator with your custom config) you can use your custom SOAP client too
+  - full **IDE autocompletion** thanks to [wsdl2phpgenerator](https://github.com/wsdl2phpgenerator/wsdl2phpgenerator)
+  - simple, fluent, robust yet flexible, **OOP interface**
+  - support for **custom logger**
+    - library then writes some info to it to ease debugging
+  - support for **custom cache**
+    - caching is then enabled on a per call bases like this `$client->call()->cacheFor(10 * 60)->doSomeMethod()`
+  - support for **parameter injection**
+    - eg. session ID, country code, user ID, ...
+    - such info will be prepended to all requests that support it, so that you don't have to write them by hand all the time
+  - support for **custom SOAP client**
+    - this feature requires some tiny hacks (rerunning wsdl2phpgenerator with your custom config)
 
 
 Testers needed
@@ -91,7 +97,7 @@ $client->authenticate();
 
 Library documentation
 ----------------
-  - [ApiGen generated docs](http://rindeal.github.io/allegro-client/class-Rindeal.Allegro.Client.html)
+  - [ApiGen generated docs](http://rindeal.github.io/allegro-php-client/docs/api/latest/class-Rindeal.Allegro.Client.html)
   - [official WebAPI docs](http://allegro.pl/webapi/documentation.php?lang=en)
 
 
