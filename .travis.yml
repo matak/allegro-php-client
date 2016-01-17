@@ -18,6 +18,7 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+    - $HOME/phpdoc_cache
 
 env:
   global:
