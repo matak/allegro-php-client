@@ -26,8 +26,11 @@ env:
 
 before_script:
   - phpenv config-rm xdebug.ini
-  - composer update --no-interaction --prefer-source
+  - git config --global user.name travis-ci
+  - git config --global user.email travis@example.com
+  - composer self-update
   - composer --version
+  - composer update --no-interaction --prefer-source
 
 script: 'true'
 
