@@ -4,7 +4,7 @@ set -u
 
 repo_dir="$(mktemp -d)"
 src_dir="${TRAVIS_BUILD_DIR}/lib"
-docs_base_dir="${repo_dir}/docs/api/"
+docs_base_dir="${repo_dir}/docs/api"
 apigen_base_dir="${docs_base_dir}/apigen"
 phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
@@ -33,7 +33,7 @@ mkdir -p "$apigen_dir"
 echo "Running ApiGen: " "${apigen_cmd[@]}" " " "${apigen_args[@]}"
 "${apigen_cmd[@]}" "${apigen_args[@]}" || exit 2
 
-ln -f -s "$apigen_dir" "${apigen_base_dir}/latest"
+ln -f -s "$( basename "$apigen_dir" )" "${apigen_base_dir}/latest"
 
 ## phpDocumentor
 
@@ -44,7 +44,6 @@ phpdoc_args=(
     run
     -d "$src_dir"
     -t "$phpdoc_dir"
-    --verbose
     --no-interaction
     --visibility "public,protected"
     --sourcecode
@@ -59,7 +58,7 @@ mkdir -p "$phpdoc_dir"
 echo "Running phpDocumentor: " "${phpdoc_cmd[@]}" " " "${phpdoc_args[@]}"
 "${phpdoc_cmd[@]}" "${phpdoc_args[@]}" || exit 3
 
-ln -f -s "$phpdoc_dir" "${phpdoc_base_dir}/latest"
+ln -f -s "$( basename "$phpdoc_dir" )" "${phpdoc_base_dir}/latest"
 
 ## Push
 
