@@ -23,7 +23,7 @@ apigen_cmd=(php "${apigen}")
 apigen_args=(
     generate
     -s "$src_dir"
-    -d "$docs_dir"
+    -d "$apigen_dir"
     --template-theme=bootstrap
     --debug
 )
@@ -47,7 +47,7 @@ phpdoc_cmd=(php "${phpdoc}")
 phpdoc_args=(
     run
     -d "$src_dir"
-    -t "$docs_dir"
+    -t "$phpdoc_dir"
     --cache-folder "$phpdoc_cache_dir"
     --verbose
     --no-interaction
