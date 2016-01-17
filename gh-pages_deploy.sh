@@ -5,12 +5,9 @@ set -u
 repo_dir="$(mktemp -d)"
 src_dir="${TRAVIS_BUILD_DIR}/lib"
 docs_base_dir="${repo_dir}/docs/api/"
-apigen_base_diir="${docs_base_dir}/apigen"
-apigen_base_dir="${docs_base_dir}/phpdoc"
+apigen_base_dir="${docs_base_dir}/apigen"
+phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
-
-git config --global user.name "Travis CI"
-git config --global user.email "travis-ci@example.com"
 
 git clone --depth 1 https://github.com/${TRAVIS_REPO_SLUG}.git --branch gh-pages --single-branch "$repo_dir" >/dev/null 2>&1 || exit 1
 cd "$repo_dir"
@@ -41,14 +38,12 @@ ln -f -s "$apigen_dir" "${apigen_base_dir}/latest"
 ## phpDocumentor
 
 phpdoc_dir="${phpdoc_base_dir}/${docs_revision}"
-phpdoc_cache_dir="~/phpdoc_cache"
 phpdoc="$(mktemp)"
 phpdoc_cmd=(php "${phpdoc}")
 phpdoc_args=(
     run
     -d "$src_dir"
     -t "$phpdoc_dir"
-    --cache-folder "$phpdoc_cache_dir"
     --verbose
     --no-interaction
     --visibility "public,protected"
