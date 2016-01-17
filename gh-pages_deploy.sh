@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -u
+
 repo_dir="$(mktemp -d)"
 src_dir="${TRAVIS_BUILD_DIR}/lib"
 docs_base_dir="${repo_dir}/docs/api/"
@@ -30,7 +32,10 @@ wget https://github.com/ApiGen/ApiGen/releases/download/v4.1.2/apigen.phar -O "$
 
 rm -rf "$apigen_dir" || true
 mkdir -p "$apigen_dir"
+
+echo "Running ApiGen: " "${apigen_cmd[@]}" " " "${apigen_args[@]}"
 "${apigen_cmd[@]}" "${apigen_args[@]}" || exit 2
+
 ln -f -s "$apigen_dir" "${apigen_base_dir}/latest"
 
 ## phpDocumentor
@@ -55,7 +60,10 @@ wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/ph
 
 rm -rf "$phpdoc_dir" || true
 mkdir -p "$phpdoc_dir"
+
+echo "Running phpDocumentor: " "${phpdoc_cmd[@]}" " " "${phpdoc_args[@]}"
 "${phpdoc_cmd[@]}" "${phpdoc_args[@]}" || exit 3
+
 ln -f -s "$phpdoc_dir" "${phpdoc_base_dir}/latest"
 
 ## Push
