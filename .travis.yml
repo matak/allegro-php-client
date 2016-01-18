@@ -39,8 +39,5 @@ before_script:
   - composer --version
   - composer update --no-interaction --prefer-source
 
-script: 'true'
-
-after_script:
-  - chmod +x ./gh-pages_deploy.sh
+script:
   - ./gh-pages_deploy.sh

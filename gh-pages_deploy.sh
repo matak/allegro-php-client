@@ -3,7 +3,7 @@
 [[ -z "$TRAVIS" ]] && { echo "This is a build script for Travis CI only"; exit 1; }
 
 [[ "$TRAVIS_PHP_VERSION" != "5.5" ]] && { echo "PHP version is ${TRAVIS_PHP_VERSION}, 5.5 required"; exit 1; }
-[[ "$TRAVIS_BRANCH" != "master" ]] && { echo "Git branch is ${TRAVIS_BRANCH}, master required"; exit 1; }
+# [[ "$TRAVIS_BRANCH" != "master" ]] && { echo "Git branch is ${TRAVIS_BRANCH}, master required"; exit 1; }
 [[ "$TRAVIS_TAG" == "" ]] && { echo "Git tag is empty"; exit 1; }
 [[ "$TRAVIS_PULL_REQUEST" != "false" ]] && { echo "Building pull request"; exit 1; }
 
