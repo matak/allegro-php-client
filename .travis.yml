@@ -40,4 +40,5 @@ before_script:
   - composer update --no-interaction --prefer-source
 
 script:
+  - export -f travis_wait
   - ./gh-pages_deploy.sh
