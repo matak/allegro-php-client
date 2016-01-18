@@ -48,6 +48,7 @@ phpdoc_args=(
     --visibility "public,protected"
     --sourcecode
     --no-ansi
+    --cache-folder "/tmp"
 )
 
 wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/phpDocumentor.phar -O "$phpdoc"
