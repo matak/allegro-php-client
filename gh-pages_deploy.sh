@@ -81,6 +81,8 @@ ln -f -s "$( basename "$phpdoc_dir" )" "${phpdoc_base_dir}/latest"
 
 ## Push
 
+cd "$repo_dir"
+
 git add .
 git commit -m "API docs regenerated
 
