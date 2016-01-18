@@ -19,7 +19,7 @@ phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
 docs_gen_src_dir="${src_dir}/lib"
 doc_gen_ignore_dirs=(
-    "${src_dir}/lib/Client/HttpClient/Wsdl"
+    "Client/HttpClient/Wsdl"
 )
 
 join_array () {
@@ -43,10 +43,11 @@ apigen="$( mktemp )"
 apigen_cmd=(
     php "${apigen}"
     generate
-    -s "$docs_gen_src_dir"
-    -d "$apigen_dir"
+    --source "$docs_gen_src_dir"
+    --destination "$apigen_dir"
     --template-theme=bootstrap
     --debug
+    --tree
     --exclude "$( join_array , "${doc_gen_ignore_dirs[@]}" )"
 )
 
@@ -72,8 +73,8 @@ phpdoc_cmd=(
     travis_wait 30 # https://docs.travis-ci.com/user/build-timeouts/#Build-times-out-because-no-output-was-received
     php "${phpdoc}" 
     run
-    -d "$docs_gen_src_dir"
-    -t "$phpdoc_dir"
+    --directory "$docs_gen_src_dir"
+    --target "$phpdoc_dir"
     --no-interaction
     --visibility "public,protected"
     --sourcecode
