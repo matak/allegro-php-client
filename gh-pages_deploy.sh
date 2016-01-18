@@ -18,7 +18,7 @@ apigen_base_dir="${docs_base_dir}/apigen"
 phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
 doc_gen_ignore_dirs=(
-    "${repo_dir}/lib/Client/HttpClient/Wsdl"
+    "${src_dir}/lib/Client/HttpClient/Wsdl"
 )
 
 join_array () {
