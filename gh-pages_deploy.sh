@@ -17,6 +17,15 @@ docs_base_dir="${repo_dir}/docs/api"
 apigen_base_dir="${docs_base_dir}/apigen"
 phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
+doc_gen_ignore_dirs=(
+    "${repo_dir}/lib////Wsdl"
+)
+
+join_array () {
+    local IFS="$1"
+    shift
+    echo "$*"
+}
 
 cd /tmp
 
@@ -37,6 +46,7 @@ apigen_cmd=(
     -d "$apigen_dir"
     --template-theme=bootstrap
     --debug
+    --exclude "$( join_array , "${doc_gen_ignore_dirs[@]}" )"
 )
 
 wget https://github.com/ApiGen/ApiGen/releases/download/v4.1.2/apigen.phar -O "$apigen" || exit 1
@@ -67,6 +77,7 @@ phpdoc_cmd=(
     --visibility "public,protected"
     --sourcecode
     --cache-folder "/tmp/phpdoc_cache"
+    --ignore "$( join_array , "${doc_gen_ignore_dirs[@]}" )"
 )
 
 wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/phpDocumentor.phar -O "$phpdoc" || exit 1
@@ -84,7 +95,7 @@ ln -f -s "$( basename "$phpdoc_dir" )" "${phpdoc_base_dir}/latest"
 cd "$repo_dir"
 
 git add .
-git commit -m "API docs regenerated
+git commit -m "API docs regenerated - ${TRAVIS_TAG}
 
 tag: ${TRAVIS_TAG}
 build number: ${TRAVIS_JOB_NUMBER}
