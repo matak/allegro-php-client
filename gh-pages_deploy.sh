@@ -2,10 +2,10 @@
 
 [[ -z "$TRAVIS" ]] && { echo "This is a build script for Travis CI only"; exit 1; }
 
-[[ "$TRAVIS_PHP_VERSION" != "5.5" ]] && { echo "PHP version is ${TRAVIS_PHP_VERSION}, 5.5 required"; exit 1; }
-# [[ "$TRAVIS_BRANCH" != "master" ]] && { echo "Git branch is ${TRAVIS_BRANCH}, master required"; exit 1; }
-[[ "$TRAVIS_TAG" == "" ]] && { echo "Git tag is empty"; exit 1; }
-[[ "$TRAVIS_PULL_REQUEST" != "false" ]] && { echo "Building pull request"; exit 1; }
+[[ "$TRAVIS_PHP_VERSION" != "5.5" ]] && { echo "PHP version is ${TRAVIS_PHP_VERSION}, 5.5 required"; exit 0; }
+# [[ "$TRAVIS_BRANCH" != "master" ]] && { echo "Git branch is ${TRAVIS_BRANCH}, master required"; exit 0; }
+[[ "$TRAVIS_TAG" == "" ]] && { echo "Git tag is empty"; exit 0; }
+[[ "$TRAVIS_PULL_REQUEST" != "false" ]] && { echo "Building pull request"; exit 0; }
 
 set -u
 
@@ -22,6 +22,10 @@ git clone --depth 1 https://github.com/${TRAVIS_REPO_SLUG}.git --branch gh-pages
 
 ## ApiGen
 
+echo "--------------------------------------------------------------------------------"
+echo "------------------------------       ApiGen       ------------------------------"
+echo "--------------------------------------------------------------------------------"
+
 apigen_dir="${apigen_base_dir}/${docs_revision}"
 apigen="$( mktemp )"
 apigen_cmd=(
@@ -33,17 +37,21 @@ apigen_cmd=(
     --debug
 )
 
-wget https://github.com/ApiGen/ApiGen/releases/download/v4.1.2/apigen.phar -O "$apigen"
+wget https://github.com/ApiGen/ApiGen/releases/download/v4.1.2/apigen.phar -O "$apigen" || exit 1
 
 rm -rf "$apigen_dir" || true
 mkdir -p "$apigen_dir"
 
 echo "Running ApiGen: " "${apigen_cmd[@]}"
-"${apigen_cmd[@]}" || exit 2
+"${apigen_cmd[@]}" || exit 11
 
 ln -f -s "$( basename "$apigen_dir" )" "${apigen_base_dir}/latest"
 
 ## phpDocumentor
+
+echo "--------------------------------------------------------------------------------"
+echo "------------------------------    phpDocumentor   ------------------------------"
+echo "--------------------------------------------------------------------------------"
 
 phpdoc_dir="${phpdoc_base_dir}/${docs_revision}"
 phpdoc="$( mktemp )"
@@ -60,13 +68,13 @@ phpdoc_cmd=(
     --cache-folder "/tmp/phpdoc_cache"
 )
 
-wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/phpDocumentor.phar -O "$phpdoc"
+wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/phpDocumentor.phar -O "$phpdoc" || exit 1
 
 rm -rf "$phpdoc_dir" || true
 mkdir -p "$phpdoc_dir"
 
 echo "Running phpDocumentor: " "${phpdoc_cmd[@]}"
-"${phpdoc_cmd[@]}" || exit 3
+"${phpdoc_cmd[@]}" || exit 22
 
 ln -f -s "$( basename "$phpdoc_dir" )" "${phpdoc_base_dir}/latest"
 
