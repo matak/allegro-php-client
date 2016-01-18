@@ -12,11 +12,12 @@ required_php_ver="5.6"
 set -u
 
 repo_dir="$( mktemp -d )"
-src_dir="${TRAVIS_BUILD_DIR}/lib"
+src_dir="${TRAVIS_BUILD_DIR}"
 docs_base_dir="${repo_dir}/docs/api"
 apigen_base_dir="${docs_base_dir}/apigen"
 phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
+docs_gen_src_dir="${src_dir}/lib"
 doc_gen_ignore_dirs=(
     "${src_dir}/lib/Client/HttpClient/Wsdl"
 )
@@ -42,7 +43,7 @@ apigen="$( mktemp )"
 apigen_cmd=(
     php "${apigen}"
     generate
-    -s "$src_dir"
+    -s "$docs_gen_src_dir"
     -d "$apigen_dir"
     --template-theme=bootstrap
     --debug
@@ -71,7 +72,7 @@ phpdoc_cmd=(
     travis_wait 30 # https://docs.travis-ci.com/user/build-timeouts/#Build-times-out-because-no-output-was-received
     php "${phpdoc}" 
     run
-    -d "$src_dir"
+    -d "$docs_gen_src_dir"
     -t "$phpdoc_dir"
     --no-interaction
     --visibility "public,protected"
