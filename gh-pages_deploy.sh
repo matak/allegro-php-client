@@ -9,22 +9,23 @@
 
 set -u
 
-repo_dir="$(mktemp -d)"
+repo_dir="$( mktemp -d )"
 src_dir="${TRAVIS_BUILD_DIR}/lib"
 docs_base_dir="${repo_dir}/docs/api"
 apigen_base_dir="${docs_base_dir}/apigen"
 phpdoc_base_dir="${docs_base_dir}/phpdoc"
 docs_revision="$TRAVIS_TAG"
 
+cd /tmp
+
 git clone --depth 1 https://github.com/${TRAVIS_REPO_SLUG}.git --branch gh-pages --single-branch "$repo_dir" >/dev/null 2>&1 || exit 1
-cd "$repo_dir"
 
 ## ApiGen
 
 apigen_dir="${apigen_base_dir}/${docs_revision}"
-apigen="$(mktemp)"
-apigen_cmd=(php "${apigen}")
-apigen_args=(
+apigen="$( mktemp )"
+apigen_cmd=(
+    php "${apigen}"
     generate
     -s "$src_dir"
     -d "$apigen_dir"
@@ -37,17 +38,18 @@ wget https://github.com/ApiGen/ApiGen/releases/download/v4.1.2/apigen.phar -O "$
 rm -rf "$apigen_dir" || true
 mkdir -p "$apigen_dir"
 
-echo "Running ApiGen: " "${apigen_cmd[@]}" " " "${apigen_args[@]}"
-"${apigen_cmd[@]}" "${apigen_args[@]}" || exit 2
+echo "Running ApiGen: " "${apigen_cmd[@]}"
+"${apigen_cmd[@]}" || exit 2
 
 ln -f -s "$( basename "$apigen_dir" )" "${apigen_base_dir}/latest"
 
 ## phpDocumentor
 
 phpdoc_dir="${phpdoc_base_dir}/${docs_revision}"
-phpdoc="$(mktemp)"
-phpdoc_cmd=(php "${phpdoc}")
-phpdoc_args=(
+phpdoc="$( mktemp )"
+phpdoc_cmd=(
+    travis_wait # https://docs.travis-ci.com/user/build-timeouts/#Build-times-out-because-no-output-was-received
+    php "${phpdoc}" 
     run
     -d "$src_dir"
     -t "$phpdoc_dir"
@@ -63,8 +65,8 @@ wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/ph
 rm -rf "$phpdoc_dir" || true
 mkdir -p "$phpdoc_dir"
 
-echo "Running phpDocumentor: " "${phpdoc_cmd[@]}" " " "${phpdoc_args[@]}"
-"${phpdoc_cmd[@]}" "${phpdoc_args[@]}" || exit 3
+echo "Running phpDocumentor: " "${phpdoc_cmd[@]}"
+"${phpdoc_cmd[@]}" || exit 3
 
 ln -f -s "$( basename "$phpdoc_dir" )" "${phpdoc_base_dir}/latest"
 
