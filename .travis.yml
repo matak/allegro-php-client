@@ -1,4 +1,4 @@
-## Run on container environment
+# Run on container environment
 sudo: false
 
 matrix:
@@ -21,31 +21,26 @@ env:
 addons:
   apt:
     packages:
-    - graphviz
+    - graphviz # needed for phpdoc graphs
 
 cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+    - /tmp/phpdoc_cache
 
 before_script:
   - phpenv config-rm xdebug.ini
+  # GIT
   - git config --global user.name travis-ci
   - git config --global user.email travis@example.com
+  # Composer
   - composer self-update
   - composer --version
   - composer update --no-interaction --prefer-source
 
-script: 'env | grep -v TOKEN'
+script: 'true'
 
-deploy:
-  provider: releases
-  api_key:
-    secure: "BiCkfWkkIBEY083Q5TBcOYDd9QPcUBs+RRkDhHUaUjeL9oZAnv+agNKW4eEmzb2zO7xAcHmLlPM0hmgsQal4OrA5PFpkyRfTqW7XxAp468nyO/s2/WQ8gkZ6ouu35ntQLWi+PN09/1UZJaSIp5xlHKumEJI6g90zKWizVQ9i9EKpCUlAMNM/P/Gbmy67WTlJGTeDf2QCOgQY76Ug99cuIsJVKk/IQdRF653lgSFsO6xSD8jtPiVdId8LdJtMmW0G9gZ2OuN3rf9bb88s8nGTHZd3NWy/vAQn2bNjqM2PP2CeNb728+CiYWx8bQnpKQqam6ZKj0e8sSBF+wgi2lRtYjikRrYRYn0ZqVn7LccJOowVdsVlbtEQ54Ho7T+QH8sqj7d65G7SwXRRj6fHHCDEI4w/o2A21ZVtG7XmNZDXZ4li1XjPaxNI1cLW/oTBaJW2gbUwFLD5r9Jnjj9WTw/VmwQdSsVUz4FafgqdzksP90MFbZhKdzip7+CSwuTzDoXGnD9nXf5RIUKrFvy6Ws3RbOrNac0x+ubsjXCZ821vAMGOjrqik2Di3VDxgOEjYNhPhY7R8bCqJOmcGMokLsUMA1N1yGymuaN4IaIdjlcHCGvQwY7gYukil4Xec3KVZWUw896ZBg4O9jEBTAaKfXiS6afPSI+iKtYpEYhdtV3FoDQ="
-  on:
-    tags: true
-    php: '5.5'
-
-after_deploy:
+after_script:
   - chmod +x ./gh-pages_deploy.sh
   - ./gh-pages_deploy.sh
