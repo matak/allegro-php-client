@@ -2,7 +2,9 @@
 
 [[ -z "$TRAVIS" ]] && { echo "This is a build script for Travis CI only"; exit 1; }
 
-[[ "$TRAVIS_PHP_VERSION" != "5.5" ]] && { echo "PHP version is ${TRAVIS_PHP_VERSION}, 5.5 required"; exit 0; }
+required_php_ver="5.6"
+
+[[ "$TRAVIS_PHP_VERSION" != "$required_php_ver" ]] && { echo "PHP version is ${TRAVIS_PHP_VERSION}, ${required_php_ver} required"; exit 0; }
 # [[ "$TRAVIS_BRANCH" != "master" ]] && { echo "Git branch is ${TRAVIS_BRANCH}, master required"; exit 0; }
 [[ "$TRAVIS_TAG" == "" ]] && { echo "Git tag is empty"; exit 0; }
 [[ "$TRAVIS_PULL_REQUEST" != "false" ]] && { echo "Building pull request"; exit 0; }
@@ -56,7 +58,7 @@ echo "--------------------------------------------------------------------------
 phpdoc_dir="${phpdoc_base_dir}/${docs_revision}"
 phpdoc="$( mktemp )"
 phpdoc_cmd=(
-    travis_wait # https://docs.travis-ci.com/user/build-timeouts/#Build-times-out-because-no-output-was-received
+    travis_wait 30 # https://docs.travis-ci.com/user/build-timeouts/#Build-times-out-because-no-output-was-received
     php "${phpdoc}" 
     run
     -d "$src_dir"
@@ -64,7 +66,6 @@ phpdoc_cmd=(
     --no-interaction
     --visibility "public,protected"
     --sourcecode
-    --no-ansi
     --cache-folder "/tmp/phpdoc_cache"
 )
 
