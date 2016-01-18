@@ -1,5 +1,12 @@
 #!/bin/bash
 
+[[ -z "$TRAVIS" ]] && { echo "This is a build script for Travis CI only"; exit 1; }
+
+[[ "$TRAVIS_PHP_VERSION" != "5.5" ]] && { echo "PHP version is ${TRAVIS_PHP_VERSION}, 5.5 required"; exit 1; }
+[[ "$TRAVIS_BRANCH" != "master" ]] && { echo "Git branch is ${TRAVIS_BRANCH}, master required"; exit 1; }
+[[ "$TRAVIS_TAG" == "" ]] && { echo "Git tag is empty"; exit 1; }
+[[ "$TRAVIS_PULL_REQUEST" != "false" ]] && { echo "Building pull request"; exit 1; }
+
 set -u
 
 repo_dir="$(mktemp -d)"
@@ -48,7 +55,7 @@ phpdoc_args=(
     --visibility "public,protected"
     --sourcecode
     --no-ansi
-    --cache-folder "/tmp"
+    --cache-folder "/tmp/phpdoc_cache"
 )
 
 wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.8.5/phpDocumentor.phar -O "$phpdoc"
@@ -64,5 +71,11 @@ ln -f -s "$( basename "$phpdoc_dir" )" "${phpdoc_base_dir}/latest"
 ## Push
 
 git add .
-git commit -m "API docs regenerated for tag ${TRAVIS_TAG}"
+git commit -m "API docs regenerated
+
+tag: ${TRAVIS_TAG}
+build number: ${TRAVIS_JOB_NUMBER}
+build id: ${TRAVIS_JOB_ID}
+"
 git push "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages >/dev/null 2>&1 || exit 126
+
