@@ -41,7 +41,7 @@ class ApiCredentials extends StructureBase implements Stringable
         $this->properties['webapiKey'] = new Property([
             'validator' => function ($value) {
                 try {
-                    Validator::string()->noWhitespace()->notEmpty()->length(4)->assert($value);
+                    Validator::stringType()->noWhitespace()->notEmpty()->length(4)->assert($value);
                 } catch (NestedValidationExceptionInterface $e) {
                     throw new ValidationException($e);
                 }
@@ -57,7 +57,7 @@ class ApiCredentials extends StructureBase implements Stringable
         $this->properties['userLogin'] = new Property([
             'validator' => function ($value) {
                 try {
-                    Validator::string()->noWhitespace()->notEmpty()->length(4)->assert($value);
+                    Validator::stringType()->noWhitespace()->notEmpty()->length(4)->assert($value);
                 } catch (NestedValidationExceptionInterface $e) {
                     throw new ValidationException($e);
                 }
@@ -73,7 +73,7 @@ class ApiCredentials extends StructureBase implements Stringable
         $this->properties['hashedPassword'] = new Property([
             'validator' => function ($value) {
                 try {
-                    Validator::string()->noWhitespace()->notEmpty()->
+                    Validator::stringType()->noWhitespace()->notEmpty()->
                     // http://stackoverflow.com/a/8571649/2566213
                     regex('/^([A-Za-z0-9+\/]{4})*([A-Za-z0-9+\/]{4}|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{2}==)$/')->assert($value);
                 } catch (NestedValidationExceptionInterface $e) {

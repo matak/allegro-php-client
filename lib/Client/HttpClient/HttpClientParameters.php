@@ -62,7 +62,7 @@ class HttpClientParameters extends StructureBase implements Stringable
                 'default' => sprintf('%s/%s (+%s)', Client::NAME, Client::VERSION, Client::URL),
                 'validator' => function ($val) {
                     try {
-                        Validator::string()->length(6)->notEmpty()->assert($val);
+                        Validator::stringType()->length(6)->notEmpty()->assert($val);
                     } catch (NestedValidationExceptionInterface $e) {
                         throw new ValidationException($e);
                     }
@@ -72,7 +72,7 @@ class HttpClientParameters extends StructureBase implements Stringable
                 'default' => 10,
                 'validator' => function ($val) {
                     try {
-                        Validator::int()->min(2, true)->max(600)->assert($val);
+                        Validator::intType()->min(2, true)->max(600)->assert($val);
                     } catch (NestedValidationExceptionInterface $e) {
                         throw new ValidationException($e);
                     }
@@ -81,7 +81,7 @@ class HttpClientParameters extends StructureBase implements Stringable
             'baseUrl' => new Property([
                 'validator' => function ($val) {
                     try {
-                        Validator::string()->notEmpty()->assert($val);
+                        Validator::stringType()->notEmpty()->assert($val);
                     } catch (NestedValidationExceptionInterface $e) {
                         throw new ValidationException($e);
                     }
