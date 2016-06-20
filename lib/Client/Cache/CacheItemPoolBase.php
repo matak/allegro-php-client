@@ -39,6 +39,25 @@ abstract class CacheItemPoolBase implements CacheItemPoolInterface
 
         return $this;
     }
+    
+    public function deleteItem($key)
+    {
+        unset($this->deferredItems_[$key]);	    
+	   return true;
+    }
+
+
+
+
+
+    public function hasItem($key)
+    {
+	    return isset($this->deferredItems_[$key]);
+    }
+
+
+
+
 
     public function commit()
     {
